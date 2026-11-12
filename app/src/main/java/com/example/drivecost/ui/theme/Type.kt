@@ -56,9 +56,9 @@ val Typography = Typography(
         fontSize = 16.sp
     ),
 
-    labelMedium = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = Manrope,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 14.sp
     ),
 

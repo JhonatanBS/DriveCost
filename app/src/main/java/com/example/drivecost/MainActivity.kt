@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
@@ -53,7 +54,9 @@ fun HomeScreen() {
 
         TravelSummaryCard {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Column(
@@ -81,6 +84,22 @@ fun HomeScreen() {
                         placeholder = "km/l",
                     )
                 }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    DescriptionText("Ida e volta", true)
+                    DescriptionText("Dobra a distância")
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                ) { }
             }
         }
     }
