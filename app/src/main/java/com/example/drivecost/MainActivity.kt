@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -70,31 +71,46 @@ fun HomeScreen() {
         ScreenHeader("Custo da Viagem", "Combustível, pedágio e divisão por pessoa.")
 
         TravelSummaryCard {
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 20.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+
                 Column(
                     Modifier
                         .weight(1f),
                     horizontalAlignment = Alignment.Start
                 ) {
-                    DescriptionText("Distância (km)")
+
+                    Box(
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    ) {
+                        DescriptionText("Distância (km)")
+                    }
+
                     TravelInputField(
                         distance,
                         onValueChange = { distance = it },
                         placeholder = "km",
                     )
                 }
+
                 Column(
                     Modifier
                         .weight(1f),
                     horizontalAlignment = Alignment.Start
 
                 ) {
-                    DescriptionText("Consumo (km/l)")
+
+                    Box(
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    ) {
+                        DescriptionText("Consumo (km/l)")
+                    }
+
                     TravelInputField(
                         consumption,
                         onValueChange = { consumption = it },
@@ -106,6 +122,7 @@ fun HomeScreen() {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
+
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -113,11 +130,13 @@ fun HomeScreen() {
                     DescriptionText("Ida e volta", true)
                     DescriptionText("Dobra a distância")
                 }
+
                 Row(
                     modifier = Modifier
                         .weight(1f),
                     horizontalArrangement = Arrangement.End
                 ) {
+
                     Switch(
                         modifier = Modifier.scale(1.2f),
                         checked = roundTrip,
@@ -131,18 +150,22 @@ fun HomeScreen() {
                 }
             }
         }
+
         TravelSummaryCard {
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 20.dp),
+                    .padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
+
                     Icon(
                         modifier = Modifier
                             .size(14.dp),
@@ -150,8 +173,9 @@ fun HomeScreen() {
                         contentDescription = "icon of gas",
                     )
 
-                    DescriptionText("Preço do litro da gasolina", true)
+                    DescriptionText("Preço do litro da gasolina")
                 }
+
                 StateBadge("DF")
             }
 
@@ -167,7 +191,8 @@ fun HomeScreen() {
                     .padding(top = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                DescriptionText("Média da ANP no DF", true)
+
+                DescriptionText("Média da ANP no DF")
 
                 Text(
                     text = "Alterar estado",
