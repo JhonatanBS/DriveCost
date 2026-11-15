@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.drivecost.ui.components.CounterAction
+import com.example.drivecost.ui.components.CounterButton
 import com.example.drivecost.ui.components.DescriptionText
 import com.example.drivecost.ui.components.ScreenContainer
 import com.example.drivecost.ui.components.ScreenHeader
@@ -64,7 +66,15 @@ fun HomeScreen() {
     }
 
     var price by rememberSaveable {
-        mutableStateOf("0,00")
+        mutableStateOf("")
+    }
+
+    var tollAmount by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    var peopleCount by rememberSaveable {
+        mutableStateOf("1")
     }
 
     ScreenContainer {
@@ -182,7 +192,7 @@ fun HomeScreen() {
             TravelInputField(
                 price,
                 { price = it },
-                "Price"
+                "R$"
             )
 
             Row(
@@ -199,6 +209,57 @@ fun HomeScreen() {
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
+            }
+        }
+
+        TravelSummaryCard {
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Box(
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    ) {
+                        DescriptionText("Pedágios (R$)")
+                    }
+
+                    TravelInputField(
+                        value = tollAmount,
+                        onValueChange = { tollAmount = it },
+                        placeholder = "R$"
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+
+                    Box(
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    ) {
+                        DescriptionText("Pessoas")
+                    }
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        CounterButton(CounterAction.DECREMENT) { }
+
+                        Text(
+                            text = peopleCount,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+
+                        CounterButton(CounterAction.INCREMENT) { }
+
+                    }
+                }
             }
         }
     }

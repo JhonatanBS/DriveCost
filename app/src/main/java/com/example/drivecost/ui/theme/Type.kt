@@ -40,7 +40,7 @@ val Typography = Typography(
 
     bodyLarge = TextStyle(
         fontFamily = Manrope,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 24.sp
     ),
 
