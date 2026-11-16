@@ -15,6 +15,7 @@ import com.example.drivecost.ui.components.layout.ScreenContainer
 import com.example.drivecost.ui.components.layout.ScreenHeader
 import com.example.drivecost.ui.components.cards.TravelExpensesCard
 import com.example.drivecost.ui.components.cards.TripCostSummaryCard
+import com.example.drivecost.ui.navigation.AppNavigation
 import com.example.drivecost.ui.theme.DriveCostTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DriveCostTheme {
-                HomeScreen()
+                AppNavigation()
             }
         }
     }
