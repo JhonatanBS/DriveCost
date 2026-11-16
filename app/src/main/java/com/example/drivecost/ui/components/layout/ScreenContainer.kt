@@ -1,4 +1,4 @@
-package com.example.drivecost.ui.components
+package com.example.drivecost.ui.components.layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,9 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ScreenContainer(content: @Composable ColumnScope.() -> Unit) {
+fun ScreenContainer(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding()

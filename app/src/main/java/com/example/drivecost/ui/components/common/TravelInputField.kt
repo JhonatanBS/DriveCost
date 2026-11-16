@@ -1,4 +1,4 @@
-package com.example.drivecost.ui.components
+package com.example.drivecost.ui.components.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,17 +15,22 @@ import com.example.drivecost.ui.theme.Green50
 
 @Composable
 fun TravelInputField(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
-    keyboardType: KeyboardType = KeyboardType.Number
+    keyboardType: KeyboardType = KeyboardType.Number,
+    enabled: Boolean = true,
+    readOnly: Boolean = false
 ) {
 
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
+        enabled = enabled,
+        readOnly = readOnly,
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
             unfocusedContainerColor = MaterialTheme.colorScheme.onSecondary,

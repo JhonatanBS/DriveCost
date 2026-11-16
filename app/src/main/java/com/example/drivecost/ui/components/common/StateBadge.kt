@@ -1,4 +1,4 @@
-package com.example.drivecost.ui.components
+package com.example.drivecost.ui.components.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
@@ -24,7 +24,9 @@ fun StateBadge(
         color = Green50
     ) {
         Box(
-            modifier = Modifier.width(50.dp).height(25.dp),
+            modifier = Modifier
+                .width(50.dp)
+                .height(25.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(

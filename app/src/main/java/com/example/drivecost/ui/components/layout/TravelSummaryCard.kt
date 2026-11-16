@@ -1,6 +1,7 @@
-package com.example.drivecost.ui.components
+package com.example.drivecost.ui.components.layout
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,7 +16,7 @@ import androidx.compose.ui.unit.dp
 fun TravelSummaryCard(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surface,
-    content: @Composable () -> Unit
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -25,7 +26,7 @@ fun TravelSummaryCard(
         color = containerColor
     ) {
         Column(
-            modifier = modifier.padding(20.dp)
+            modifier = Modifier.padding(20.dp)
         ) {
             content()
         }
