@@ -1,5 +1,6 @@
 package com.example.drivecost.ui.components.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +23,8 @@ import com.example.drivecost.ui.components.layout.TravelSummaryCard
 @Composable
 fun FuelPriceCard(
     price: String,
-    onPriceChange: (String) -> Unit
+    onPriceChange: (String) -> Unit,
+    onNavigateToChangeState: () -> Unit
 ) {
     TravelSummaryCard {
 
@@ -69,9 +71,11 @@ fun FuelPriceCard(
 
             Text(
                 text = "Alterar estado",
+                modifier = Modifier.clickable { onNavigateToChangeState() },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
+
         }
     }
 }

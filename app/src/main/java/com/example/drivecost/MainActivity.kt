@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onNavigateToChangeState: () -> Unit) {
 
     var distance by rememberSaveable { mutableStateOf("") }
     var consumption by rememberSaveable { mutableStateOf("") }
@@ -60,7 +60,8 @@ fun HomeScreen() {
 
         FuelPriceCard(
             price = price,
-            onPriceChange = { price = it }
+            onPriceChange = { price = it },
+            onNavigateToChangeState = onNavigateToChangeState
         )
 
         TravelExpensesCard(
