@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.drivecost.ui.components.cards.NationAveragePriceCard
 import com.example.drivecost.ui.components.cards.StateSelectionListCard
 import com.example.drivecost.ui.components.common.GoBackButton
+import com.example.drivecost.ui.components.common.PriceButton
 import com.example.drivecost.ui.components.common.TravelInputField
 import com.example.drivecost.ui.components.layout.ScreenContainer
 import com.example.drivecost.ui.components.layout.ScreenHeader
@@ -65,5 +66,7 @@ fun ChangeStateScreen(onGoBackClick: () -> Unit) {
         StateSelectionListCard()
 
         NationAveragePriceCard()
+
+        PriceButton {}
     }
 }

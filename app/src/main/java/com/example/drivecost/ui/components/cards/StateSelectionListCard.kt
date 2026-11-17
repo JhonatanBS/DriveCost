@@ -19,7 +19,6 @@ private val states = listOf(
     State(id = 3, name = "Minas Gerais", abbreviation = "MG"),
     State(id = 4, name = "Bahia", abbreviation = "BA"),
     State(id = 5, name = "Paraná", abbreviation = "PR"),
-    State(id = 6, name = "Goiás", abbreviation = "GO"),
 )
 
 @Composable
