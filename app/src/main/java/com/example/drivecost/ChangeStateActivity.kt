@@ -5,11 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import com.example.drivecost.ui.components.common.GoBackButton
 import com.example.drivecost.ui.components.layout.ScreenContainer
 import com.example.drivecost.ui.navigation.AppNavigation
 import com.example.drivecost.ui.theme.DriveCostTheme
 
-class ChangeStateActivity : ComponentActivity(){
+class ChangeStateActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,8 +25,8 @@ class ChangeStateActivity : ComponentActivity(){
 }
 
 @Composable
-fun ChangeStateScreen() {
+fun ChangeStateScreen(onGoBackClick: () -> Unit) {
     ScreenContainer {
-
+        GoBackButton(onClick = onGoBackClick)
     }
 }

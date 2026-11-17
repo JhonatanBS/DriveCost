@@ -37,6 +37,10 @@ fun AppNavigation() {
                 })
         }
 
-        composable("changeState") { ChangeStateScreen() }
+        composable("changeState") {
+            ChangeStateScreen(onGoBackClick = {
+                navController.popBackStack()
+            })
+        }
     }
 }
