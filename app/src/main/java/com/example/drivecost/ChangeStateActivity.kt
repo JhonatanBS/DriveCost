@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.drivecost.ui.components.cards.NationAveragePriceCard
 import com.example.drivecost.ui.components.cards.StateSelectionListCard
 import com.example.drivecost.ui.components.common.GoBackButton
 import com.example.drivecost.ui.components.common.TravelInputField
@@ -41,6 +42,10 @@ fun ChangeStateScreen(onGoBackClick: () -> Unit) {
         mutableStateOf("")
     }
 
+    var averageNationalPrice by rememberSaveable {
+        mutableStateOf("6,75")
+    }
+
     ScreenContainer {
 
         GoBackButton(onClick = onGoBackClick)
@@ -58,5 +63,7 @@ fun ChangeStateScreen(onGoBackClick: () -> Unit) {
         )
 
         StateSelectionListCard()
+
+        NationAveragePriceCard()
     }
 }
