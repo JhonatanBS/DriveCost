@@ -6,18 +6,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.drivecost.ChangeStateScreen
 import com.example.drivecost.HomeScreen
+import com.example.drivecost.SplashScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "splashscreen") {
+        composable("splashscreen") { SplashScreen() }
+
         composable("home") {
             HomeScreen(
                 onNavigateToChangeState = {
                     navController.navigate("changeState")
                 })
         }
+
         composable("changeState") { ChangeStateScreen() }
     }
 }
