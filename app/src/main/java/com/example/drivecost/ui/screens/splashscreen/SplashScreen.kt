@@ -1,4 +1,4 @@
-package com.example.drivecost
+package com.example.drivecost.ui.screens.splashscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.drivecost.R
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 

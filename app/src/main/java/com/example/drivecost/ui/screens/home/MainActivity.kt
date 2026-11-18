@@ -1,4 +1,4 @@
-package com.example.drivecost
+package com.example.drivecost.ui.screens.home
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
