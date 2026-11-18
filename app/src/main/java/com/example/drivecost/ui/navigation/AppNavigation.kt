@@ -2,11 +2,14 @@ package com.example.drivecost.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.drivecost.ui.screens.changeState.ChangeStateScreen
+import com.example.drivecost.ui.screens.changeState.ChangeStateViewModel
 import com.example.drivecost.ui.screens.home.HomeScreen
+import com.example.drivecost.ui.screens.home.HomeViewModel
 import com.example.drivecost.ui.screens.splashscreen.SplashScreen
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -31,16 +34,21 @@ fun AppNavigation() {
         }
 
         composable("home") {
+            val viewModel: HomeViewModel = viewModel()
             HomeScreen(
+                viewModel = viewModel,
                 onNavigateToChangeState = {
                     navController.navigate("changeState")
                 })
         }
 
         composable("changeState") {
-            ChangeStateScreen(onGoBackClick = {
-                navController.popBackStack()
-            })
+            val viewModel: ChangeStateViewModel = viewModel()
+            ChangeStateScreen(
+                viewModel = viewModel,
+                onGoBackClick = {
+                    navController.popBackStack()
+                })
         }
     }
 }

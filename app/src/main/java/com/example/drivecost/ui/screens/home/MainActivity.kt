@@ -17,6 +17,7 @@ import com.example.drivecost.ui.components.cards.TravelExpensesCard
 import com.example.drivecost.ui.components.cards.TripCostSummaryCard
 import com.example.drivecost.ui.navigation.AppNavigation
 import com.example.drivecost.ui.theme.DriveCostTheme
+import androidx.compose.runtime.livedata.observeAsState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +34,16 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(onNavigateToChangeState: () -> Unit) {
+fun HomeScreen(viewModel: HomeViewModel, onNavigateToChangeState: () -> Unit) {
 
-    var distance by rememberSaveable { mutableStateOf("") }
-    var consumption by rememberSaveable { mutableStateOf("") }
+    val distance by viewModel.distance.observeAsState("")
+    val consumption by viewModel.consumption.observeAsState("")
+
+    val price by viewModel.price.observeAsState("")
+    val tollAmount by viewModel.tollAmount.observeAsState("")
+    val peopleCount by viewModel.peopleCount.observeAsState("")
+
     var roundTrip by rememberSaveable { mutableStateOf(false) }
-    var price by rememberSaveable { mutableStateOf("") }
-    var tollAmount by rememberSaveable { mutableStateOf("") }
-    var peopleCount by rememberSaveable { mutableStateOf("1") }
 
     ScreenContainer {
 
@@ -51,24 +54,24 @@ fun HomeScreen(onNavigateToChangeState: () -> Unit) {
 
         DistanceConsumptionCard(
             distance = distance,
-            onDistanceChange = { distance = it },
+            onDistanceChange = viewModel::updateDistance,
             consumption = consumption,
-            onConsumptionChange = { consumption = it },
+            onConsumptionChange = viewModel::updateConsumption,
             roundTrip = roundTrip,
             onRoundTripChange = { roundTrip = it }
         )
 
         FuelPriceCard(
             price = price,
-            onPriceChange = { price = it },
+            onPriceChange = viewModel::updatePrice,
             onNavigateToChangeState = onNavigateToChangeState
         )
 
         TravelExpensesCard(
             tollAmount = tollAmount,
-            onTollAmountChange = { tollAmount = it },
+            onTollAmountChange = viewModel::updateTollAmount,
             peopleCount = peopleCount,
-            onPeopleCountChange = { peopleCount = it }
+            onPeopleCountChange = viewModel::updatePeopleCount
         )
 
         TripCostSummaryCard(

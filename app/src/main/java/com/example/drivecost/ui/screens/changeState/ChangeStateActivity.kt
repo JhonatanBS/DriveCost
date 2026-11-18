@@ -7,9 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.drivecost.ui.components.cards.NationAveragePriceCard
@@ -37,15 +35,10 @@ class ChangeStateActivity : ComponentActivity() {
 }
 
 @Composable
-fun ChangeStateScreen(onGoBackClick: () -> Unit) {
+fun ChangeStateScreen(viewModel: ChangeStateViewModel, onGoBackClick: () -> Unit) {
 
-    var state by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    var averageNationalPrice by rememberSaveable {
-        mutableStateOf("6,75")
-    }
+    val state by viewModel.state.observeAsState("")
+    val averageNationalPrice by viewModel.averageNationalPrice.observeAsState("6,75")
 
     ScreenContainer {
 
@@ -59,13 +52,13 @@ fun ChangeStateScreen(onGoBackClick: () -> Unit) {
 
         TravelInputField(
             value = state,
-            onValueChange = { state = it },
+            onValueChange = viewModel::updateState,
             placeholder = "Buscar estado ou cidade"
         )
 
         StateSelectionListCard()
 
-        NationAveragePriceCard()
+        NationAveragePriceCard(value = averageNationalPrice)
 
         PriceButton {}
     }

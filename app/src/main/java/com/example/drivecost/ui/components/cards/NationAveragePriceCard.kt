@@ -20,7 +20,7 @@ import com.example.drivecost.ui.components.common.StateBadge
 import com.example.drivecost.ui.components.layout.TravelSummaryCard
 
 @Composable
-fun NationAveragePriceCard() {
+fun NationAveragePriceCard(value: String) {
     TravelSummaryCard {
         Row(
             modifier = Modifier
@@ -51,7 +51,7 @@ fun NationAveragePriceCard() {
         Column {
 
             Text(
-                text = "6,75",
+                text = value,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
