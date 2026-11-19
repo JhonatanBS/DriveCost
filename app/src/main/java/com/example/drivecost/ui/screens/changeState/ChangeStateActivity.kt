@@ -39,6 +39,8 @@ fun ChangeStateScreen(viewModel: ChangeStateViewModel, onGoBackClick: () -> Unit
 
     val state by viewModel.state.observeAsState("")
     val averageNationalPrice by viewModel.averageNationalPrice.observeAsState("6,75")
+    val filteredStates by viewModel.filteredStates.observeAsState(emptyList())
+    val selectedState by viewModel.selectedState.observeAsState(null)
 
     ScreenContainer {
 
@@ -56,7 +58,11 @@ fun ChangeStateScreen(viewModel: ChangeStateViewModel, onGoBackClick: () -> Unit
             placeholder = "Buscar estado ou cidade"
         )
 
-        StateSelectionListCard()
+        StateSelectionListCard(
+            filteredStates,
+            selectedState = selectedState,
+            onStateClick = viewModel::selectState
+        )
 
         NationAveragePriceCard(value = averageNationalPrice)
 
