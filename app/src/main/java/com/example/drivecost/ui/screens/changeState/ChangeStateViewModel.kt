@@ -1,12 +1,16 @@
 package com.example.drivecost.ui.screens.changeState
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.drivecost.data.local.brazilianStates
 import com.example.drivecost.model.BrazilianState
+import com.example.drivecost.repository.FuelRepository
+import kotlinx.coroutines.launch
 
-class ChangeStateViewModel : ViewModel() {
+class ChangeStateViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
 
     private val _state = MutableLiveData("")
     val state: LiveData<String> = _state
@@ -17,22 +21,34 @@ class ChangeStateViewModel : ViewModel() {
     private val _selectedState = MutableLiveData<BrazilianState?>(null)
     val selectedState: LiveData<BrazilianState?> = _selectedState
 
-    private val _averageNationalPrice = MutableLiveData("6,75")
-    val averageNationalPrice: LiveData<String> = _averageNationalPrice
+    private val _averageNationalPrice = MutableLiveData<Double?>(null)
+    val averageNationalPrice: LiveData<Double?> = _averageNationalPrice
+
+    init {
+        loadNationalGasolinePrice()
+    }
 
     fun updateState(value: String) {
         _state.value = value
-        searchState(value)
-    }
 
-    fun searchState(query: String) {
         _filteredStates.value = brazilianStates.filter { state ->
-            state.name.contains(query, ignoreCase = true) ||
-                    state.abbreviation.contains(query, ignoreCase = true)
+            state.name.contains(value, ignoreCase = true) ||
+                    state.abbreviation.contains(value, ignoreCase = true)
         }
     }
 
     fun selectState(state: BrazilianState) {
         _selectedState.value = state
+    }
+
+    fun loadNationalGasolinePrice() {
+        viewModelScope.launch {
+            try {
+                val price = fuelRepository.getNationalGasolinePrice()
+                _averageNationalPrice.value = price
+            } catch (exception: Exception) {
+                Log.e("DRIVECOST", "Error fetching gasoline price", exception)
+            }
+        }
     }
 }

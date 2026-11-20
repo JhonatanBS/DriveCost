@@ -20,7 +20,7 @@ import com.example.drivecost.ui.components.common.StateBadge
 import com.example.drivecost.ui.components.layout.TravelSummaryCard
 
 @Composable
-fun NationAveragePriceCard(value: String) {
+fun NationAveragePriceCard(value: Double?) {
     TravelSummaryCard {
         Row(
             modifier = Modifier
@@ -51,12 +51,12 @@ fun NationAveragePriceCard(value: String) {
         Column {
 
             Text(
-                text = value,
+                text = "R$ $value",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            DescriptionText(text = "Semana de referência: R$ 6,75")
+            DescriptionText(text = "Semana de referência: R$ $value")
             DescriptionText(text = "Levantamento de Preço de Combustíveis, pesquisa semana da ANP")
         }
     }

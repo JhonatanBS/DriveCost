@@ -3,8 +3,9 @@ package com.example.drivecost.ui.screens.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.drivecost.repository.FuelRepository
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
 
     private val _distance = MutableLiveData("")
     val distance: LiveData<String> = _distance

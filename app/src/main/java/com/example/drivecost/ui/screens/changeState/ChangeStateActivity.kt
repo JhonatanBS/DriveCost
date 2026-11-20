@@ -38,7 +38,7 @@ class ChangeStateActivity : ComponentActivity() {
 fun ChangeStateScreen(viewModel: ChangeStateViewModel, onGoBackClick: () -> Unit) {
 
     val state by viewModel.state.observeAsState("")
-    val averageNationalPrice by viewModel.averageNationalPrice.observeAsState("6,75")
+    val averageNationalPrice by viewModel.averageNationalPrice.observeAsState(null)
     val filteredStates by viewModel.filteredStates.observeAsState(emptyList())
     val selectedState by viewModel.selectedState.observeAsState(null)
 
