@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.drivecost.data.remote.client.RetrofitClient
 import com.example.drivecost.data.repository.FuelRepositoryImplement
 import com.example.drivecost.ui.screens.changeState.ChangeStateScreen
@@ -44,7 +46,19 @@ fun AppNavigation() {
             }
         }
 
-        composable("home") {
+        composable(
+            route = "home?uf={uf}",
+            arguments = listOf(
+                navArgument("uf") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) { backStackEntry ->
+
+            val uf = backStackEntry.arguments?.getString("uf")
+
             val factory = remember {
                 HomeViewModelFactory(fuelRepository)
             }
@@ -57,7 +71,9 @@ fun AppNavigation() {
                 viewModel = viewModel,
                 onNavigateToChangeState = {
                     navController.navigate("changeState")
-                })
+                },
+                selectedUf = uf)
+
         }
 
         composable("changeState") {
@@ -72,7 +88,19 @@ fun AppNavigation() {
                 viewModel = viewModel,
                 onGoBackClick = {
                     navController.popBackStack()
-                })
+                },
+                onSelectedPrice = {
+                    val selectedState = viewModel.selectedState.value
+
+                    selectedState?.let {
+                        navController.navigate("home?uf=${it.abbreviation}") {
+                            popUpTo("home?uf={uf}") {
+                                inclusive = true
+                            }
+                        }
+                }
+                }
+            )
         }
     }
 }

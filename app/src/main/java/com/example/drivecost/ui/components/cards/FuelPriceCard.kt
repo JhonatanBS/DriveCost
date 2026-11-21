@@ -22,8 +22,8 @@ import com.example.drivecost.ui.components.layout.TravelSummaryCard
 
 @Composable
 fun FuelPriceCard(
-    price: String,
-    onPriceChange: (String) -> Unit,
+    price: Double?,
+    selectedUf: String?,
     onNavigateToChangeState: () -> Unit
 ) {
     TravelSummaryCard {
@@ -51,12 +51,13 @@ fun FuelPriceCard(
                 DescriptionText(text = "Preço do litro da gasolina")
             }
 
-            StateBadge("DF")
+            StateBadge(selectedUf)
         }
 
         TravelInputField(
-            value = price,
-            onValueChange = onPriceChange,
+            enabled = false,
+            value = "R$ $price",
+            onValueChange = {},
             placeholder = "R$"
         )
 

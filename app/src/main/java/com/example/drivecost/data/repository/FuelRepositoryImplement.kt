@@ -13,7 +13,9 @@ class FuelRepositoryImplement(private val fuelService: FuelService) : FuelReposi
     override suspend fun getGasolinePrice(uf: String): Double? {
         val response = fuelService.getFuelBrazil()
 
-        return response.precos.gasolina[uf]
+        val normalizeUf = uf.trim().lowercase()
+
+        return response.precos.gasolina[normalizeUf]
             ?.replace(",", ".")
             ?.toDoubleOrNull()
     }

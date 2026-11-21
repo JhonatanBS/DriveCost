@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,16 +35,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel, onNavigateToChangeState: () -> Unit) {
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    onNavigateToChangeState: () -> Unit,
+    selectedUf: String?
+) {
 
     val distance by viewModel.distance.observeAsState("")
     val consumption by viewModel.consumption.observeAsState("")
 
-    val price by viewModel.price.observeAsState("")
+    val uf by viewModel.uf.observeAsState(selectedUf)
+    val price by viewModel.price.observeAsState(null)
     val tollAmount by viewModel.tollAmount.observeAsState("")
     val peopleCount by viewModel.peopleCount.observeAsState("")
 
     var roundTrip by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(selectedUf) {
+        viewModel.loadingGasolinePrice(selectedUf ?: "br")
+    }
 
     ScreenContainer {
 
@@ -63,8 +73,8 @@ fun HomeScreen(viewModel: HomeViewModel, onNavigateToChangeState: () -> Unit) {
 
         FuelPriceCard(
             price = price,
-            onPriceChange = viewModel::updatePrice,
-            onNavigateToChangeState = onNavigateToChangeState
+            selectedUf = uf,
+            onNavigateToChangeState = onNavigateToChangeState,
         )
 
         TravelExpensesCard(

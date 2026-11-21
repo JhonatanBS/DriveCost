@@ -21,7 +21,7 @@ class ChangeStateViewModel(private val fuelRepository: FuelRepository) : ViewMod
     private val _selectedState = MutableLiveData<BrazilianState?>(null)
     val selectedState: LiveData<BrazilianState?> = _selectedState
 
-    private val _averageNationalPrice = MutableLiveData<Double?>(null)
+    private val _averageNationalPrice = MutableLiveData(0.00)
     val averageNationalPrice: LiveData<Double?> = _averageNationalPrice
 
     init {

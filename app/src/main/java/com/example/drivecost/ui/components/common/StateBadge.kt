@@ -15,7 +15,7 @@ import com.example.drivecost.ui.theme.Green50
 
 @Composable
 fun StateBadge(
-    badge: String,
+    badge: String?,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -30,7 +30,7 @@ fun StateBadge(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = badge,
+                text = "$badge",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.labelLarge
             )

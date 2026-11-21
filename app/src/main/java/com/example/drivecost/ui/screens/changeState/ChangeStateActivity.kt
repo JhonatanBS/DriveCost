@@ -35,7 +35,11 @@ class ChangeStateActivity : ComponentActivity() {
 }
 
 @Composable
-fun ChangeStateScreen(viewModel: ChangeStateViewModel, onGoBackClick: () -> Unit) {
+fun ChangeStateScreen(
+    viewModel: ChangeStateViewModel,
+    onGoBackClick: () -> Unit,
+    onSelectedPrice: () -> Unit
+) {
 
     val state by viewModel.state.observeAsState("")
     val averageNationalPrice by viewModel.averageNationalPrice.observeAsState(null)
@@ -66,6 +70,6 @@ fun ChangeStateScreen(viewModel: ChangeStateViewModel, onGoBackClick: () -> Unit
 
         NationAveragePriceCard(value = averageNationalPrice)
 
-        PriceButton {}
+        PriceButton(onClick = onSelectedPrice)
     }
 }

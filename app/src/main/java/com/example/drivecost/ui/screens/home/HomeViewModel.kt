@@ -3,7 +3,9 @@ package com.example.drivecost.ui.screens.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.drivecost.repository.FuelRepository
+import kotlinx.coroutines.launch
 
 class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
 
@@ -13,8 +15,11 @@ class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
     private val _consumption = MutableLiveData("")
     val consumption: LiveData<String> = _consumption
 
-    private val _price = MutableLiveData("")
-    val price: LiveData<String> = _price
+    private val _uf = MutableLiveData("")
+    val uf: LiveData<String> = _uf
+
+    private val _price = MutableLiveData(0.00)
+    val price: LiveData<Double?> = _price
 
     private val _tollAmount = MutableLiveData("")
     val tollAmount: LiveData<String> = _tollAmount
@@ -30,10 +35,6 @@ class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
         _consumption.value = value
     }
 
-    fun updatePrice(value: String) {
-        _price.value = value
-    }
-
     fun updateTollAmount(value: String) {
         _tollAmount.value = value
     }
@@ -42,4 +43,11 @@ class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
         _peopleCount.value = value
     }
 
+    fun loadingGasolinePrice(uf: String = "br") {
+        viewModelScope.launch {
+            val price = fuelRepository.getGasolinePrice(uf)
+            _price.value = price
+            _uf.value = uf.uppercase()
+        }
+    }
 }
