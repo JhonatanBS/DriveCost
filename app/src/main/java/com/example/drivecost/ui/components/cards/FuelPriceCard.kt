@@ -68,7 +68,7 @@ fun FuelPriceCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            DescriptionText(text = "Média da ANP no DF")
+            DescriptionText(text = "Média da ANP no $selectedUf")
 
             Text(
                 text = "Alterar estado",

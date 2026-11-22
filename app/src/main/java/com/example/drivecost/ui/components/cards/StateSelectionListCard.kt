@@ -11,14 +11,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.drivecost.model.BrazilianState
+import com.example.drivecost.model.StateFuelInformation
 import com.example.drivecost.ui.components.common.StateItem
 
 @Composable
 fun StateSelectionListCard(
-    filteredStates: List<BrazilianState>,
-    selectedState: BrazilianState?,
-    onStateClick: (BrazilianState) -> Unit
+    filteredStates: List<StateFuelInformation>,
+    selectedState: StateFuelInformation?,
+    onStateClick: (StateFuelInformation) -> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(12.dp),
@@ -27,22 +27,25 @@ fun StateSelectionListCard(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(max = 260.dp),
+                .heightIn(max = 330.dp),
             verticalArrangement = Arrangement.spacedBy(0.dp),
         ) {
             items(
                 items = filteredStates,
-                key = { it.abbreviation }
+                key = { it.uf }
             ) { state ->
 
-                val isSelected = selectedState?.abbreviation == state.abbreviation
+                val isSelected = selectedState?.uf == state.uf
                 StateItem(
-                    state = state.name,
-                    abbreviation = state.abbreviation,
+                    state = state.state,
+                    uf = state.uf,
                     isSelected = isSelected,
                     onClick = {
                         onStateClick(state)
-                    }
+                    },
+                    flagUrl = state.flagUrl,
+                    gasoline = state.gasoline,
+                    diesel = state.diesel.toString()
                 )
             }
         }

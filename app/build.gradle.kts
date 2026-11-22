@@ -55,6 +55,8 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,10 +1,10 @@
 package com.example.drivecost.repository
 
-import com.example.drivecost.model.State
+import com.example.drivecost.model.StateFuelInformation
 
 interface FuelRepository {
 
-    suspend fun getStates(): List<State>
+    suspend fun getStatesWithFuelInfo(): List<StateFuelInformation>
 
     suspend fun getGasolinePrice(uf: String): Double?
 

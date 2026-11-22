@@ -53,11 +53,8 @@ fun NationAveragePriceCard(value: Double?) {
             Text(
                 text = "R$ $value",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.primary
             )
-
-            DescriptionText(text = "Semana de referência: R$ $value")
-            DescriptionText(text = "Levantamento de Preço de Combustíveis, pesquisa semana da ANP")
         }
     }
 }

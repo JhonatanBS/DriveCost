@@ -72,7 +72,8 @@ fun AppNavigation() {
                 onNavigateToChangeState = {
                     navController.navigate("changeState")
                 },
-                selectedUf = uf)
+                selectedUf = uf
+            )
 
         }
 
@@ -93,12 +94,12 @@ fun AppNavigation() {
                     val selectedState = viewModel.selectedState.value
 
                     selectedState?.let {
-                        navController.navigate("home?uf=${it.abbreviation}") {
+                        navController.navigate("home?uf=${it.uf}") {
                             popUpTo("home?uf={uf}") {
                                 inclusive = true
                             }
                         }
-                }
+                    }
                 }
             )
         }
