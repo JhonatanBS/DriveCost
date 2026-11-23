@@ -21,8 +21,9 @@ import com.example.drivecost.ui.components.layout.TravelSummaryCard
 fun TravelExpensesCard(
     tollAmount: String,
     onTollAmountChange: (String) -> Unit,
-    peopleCount: String,
-    onPeopleCountChange: (String) -> Unit
+    peopleCount: Int,
+    incrementPeopleCount: () -> Unit,
+    decrementPeopleCount: () -> Unit,
 ) {
 
     TravelSummaryCard {
@@ -65,16 +66,18 @@ fun TravelExpensesCard(
 
                     CounterButton(
                         action = CounterAction.DECREMENT,
-                        onClick = {})
+                        onClick = decrementPeopleCount
+                    )
 
                     Text(
-                        text = peopleCount,
+                        text = "$peopleCount",
                         style = MaterialTheme.typography.bodyLarge
                     )
 
                     CounterButton(
                         action = CounterAction.INCREMENT,
-                        onClick = {})
+                        onClick = incrementPeopleCount
+                    )
 
                 }
             }

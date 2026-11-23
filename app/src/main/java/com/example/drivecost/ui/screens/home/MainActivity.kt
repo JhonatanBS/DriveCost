@@ -47,7 +47,7 @@ fun HomeScreen(
     val uf by viewModel.uf.observeAsState(selectedUf)
     val price by viewModel.price.observeAsState(null)
     val tollAmount by viewModel.tollAmount.observeAsState("")
-    val peopleCount by viewModel.peopleCount.observeAsState("")
+    val peopleCount by viewModel.peopleCount.observeAsState(1)
 
     var roundTrip by rememberSaveable { mutableStateOf(false) }
 
@@ -81,7 +81,8 @@ fun HomeScreen(
             tollAmount = tollAmount,
             onTollAmountChange = viewModel::updateTollAmount,
             peopleCount = peopleCount,
-            onPeopleCountChange = viewModel::updatePeopleCount
+            incrementPeopleCount = viewModel::incrementPeopleCount,
+            decrementPeopleCount = viewModel::decrementPeopleCount
         )
 
         TripCostSummaryCard(

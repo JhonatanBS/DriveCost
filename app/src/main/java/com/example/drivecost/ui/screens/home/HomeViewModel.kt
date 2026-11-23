@@ -24,8 +24,8 @@ class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
     private val _tollAmount = MutableLiveData("")
     val tollAmount: LiveData<String> = _tollAmount
 
-    private val _peopleCount = MutableLiveData("1")
-    val peopleCount: LiveData<String> = _peopleCount
+    private val _peopleCount = MutableLiveData(1)
+    val peopleCount: LiveData<Int> = _peopleCount
 
     fun updateDistance(value: String) {
         _distance.value = value
@@ -39,15 +39,21 @@ class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
         _tollAmount.value = value
     }
 
-    fun updatePeopleCount(value: String) {
-        _peopleCount.value = value
-    }
-
     fun loadingGasolinePrice(uf: String = "br") {
         viewModelScope.launch {
             val price = fuelRepository.getGasolinePrice(uf)
             _price.value = price
             _uf.value = uf.uppercase()
+        }
+    }
+
+    fun incrementPeopleCount() {
+        _peopleCount.value = _peopleCount.value?.plus(1)
+    }
+
+    fun decrementPeopleCount() {
+        _peopleCount.value = _peopleCount.value?.let {
+            (it - 1).coerceAtLeast(1)
         }
     }
 }
