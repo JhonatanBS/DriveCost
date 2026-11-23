@@ -13,13 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.drivecost.ui.components.layout.TravelSummaryCard
+import java.util.Locale
 
 @Composable
 fun TripCostSummaryCard(
-    totalCost: String,
-    fuelCost: String,
-    fuelLiters: String,
-    costPerPerson: String,
+    totalCostDistance: Double,
+    totalCostConsumption: Double,
+    totalCostLiters: Double,
+    totalCostForPeople: Double,
+    distance: Int,
+    roundTrip: Boolean,
     modifier: Modifier = Modifier
 ) {
     TravelSummaryCard(containerColor = MaterialTheme.colorScheme.primary) {
@@ -33,13 +36,18 @@ fun TripCostSummaryCard(
         ) {
 
             Text(
-                text = "Custo total · 600 Km",
+                text = "Custo total · ${if (roundTrip) distance * 2 else distance} Km",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
             Text(
-                text = "R$ 355,00",
+                text = "R$ ${
+                    String.format(
+                        Locale.forLanguageTag("pt-BR"), "%.2f",
+                        if (roundTrip) totalCostDistance * 2 else totalCostDistance
+                    )
+                }",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onPrimary
             )
@@ -66,7 +74,12 @@ fun TripCostSummaryCard(
                 )
 
                 Text(
-                    text = "R$ 325,00",
+                    text = "R$ ${
+                        String.format(
+                            Locale.forLanguageTag("pt-BR"), "%.2f",
+                            if (roundTrip) totalCostConsumption * 2 else totalCostConsumption
+                        )
+                    }",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -80,7 +93,12 @@ fun TripCostSummaryCard(
                 )
 
                 Text(
-                    text = "50,00 L",
+                    text = "${
+                        String.format(
+                            Locale.forLanguageTag("pt-BR"), "%.2f",
+                            if (roundTrip) totalCostLiters * 2 else totalCostLiters
+                        )
+                    } L",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -95,7 +113,12 @@ fun TripCostSummaryCard(
                 )
 
                 Text(
-                    text = "R$ 177,50",
+                    text = "R$ ${
+                        String.format(
+                            Locale.forLanguageTag("pt-BR"), "%.2f",
+                            if (roundTrip) totalCostForPeople * 2 else totalCostForPeople
+                        )
+                    }",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

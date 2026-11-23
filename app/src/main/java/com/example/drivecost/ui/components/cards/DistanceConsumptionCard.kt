@@ -19,10 +19,10 @@ import com.example.drivecost.ui.components.layout.TravelSummaryCard
 
 @Composable
 fun DistanceConsumptionCard(
-    distance: String,
-    onDistanceChange: (String) -> Unit,
-    consumption: String,
-    onConsumptionChange: (String) -> Unit,
+    distance: Int,
+    onDistanceChange: (Int) -> Unit,
+    consumption: Double,
+    onConsumptionChange: (Double) -> Unit,
     roundTrip: Boolean,
     onRoundTripChange: (Boolean) -> Unit
 ) {
@@ -48,8 +48,10 @@ fun DistanceConsumptionCard(
                 )
 
                 TravelInputField(
-                    value = distance,
-                    onValueChange = onDistanceChange,
+                    value = if (distance == 0) "" else distance.toString(),
+                    onValueChange = { newValue ->
+                        onDistanceChange(newValue.toIntOrNull() ?: 0)
+                    },
                     placeholder = "km",
                 )
             }
@@ -67,8 +69,12 @@ fun DistanceConsumptionCard(
                 )
 
                 TravelInputField(
-                    value = consumption,
-                    onValueChange = onConsumptionChange,
+                    value = if (consumption == 0.0) "" else consumption.toString(),
+                    onValueChange = { newValue ->
+                        onConsumptionChange(
+                            newValue.replace(",", ".").toDoubleOrNull() ?: 0.0
+                        )
+                    },
                     placeholder = "km/l",
                 )
             }

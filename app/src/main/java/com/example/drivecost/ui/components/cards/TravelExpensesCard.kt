@@ -16,11 +16,12 @@ import com.example.drivecost.ui.components.common.CounterButton
 import com.example.drivecost.ui.components.common.DescriptionText
 import com.example.drivecost.ui.components.common.TravelInputField
 import com.example.drivecost.ui.components.layout.TravelSummaryCard
+import java.util.Locale
 
 @Composable
 fun TravelExpensesCard(
-    tollAmount: String,
-    onTollAmountChange: (String) -> Unit,
+    tollAmount: Double,
+    onTollAmountChange: (Double) -> Unit,
     peopleCount: Int,
     incrementPeopleCount: () -> Unit,
     decrementPeopleCount: () -> Unit,
@@ -43,8 +44,12 @@ fun TravelExpensesCard(
                 }
 
                 TravelInputField(
-                    value = tollAmount,
-                    onValueChange = onTollAmountChange,
+                    value = if (tollAmount == 0.0) "" else String.format(
+                        Locale.forLanguageTag("pt-BR"), "%.2f", tollAmount
+                    ),
+                    onValueChange = { newValue ->
+                        onTollAmountChange(newValue.replace(",", ".").toDoubleOrNull() ?: 0.0)
+                    },
                     placeholder = "R$"
                 )
             }

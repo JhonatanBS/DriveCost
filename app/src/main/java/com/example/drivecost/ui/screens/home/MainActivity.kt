@@ -41,13 +41,18 @@ fun HomeScreen(
     selectedUf: String?
 ) {
 
-    val distance by viewModel.distance.observeAsState("")
-    val consumption by viewModel.consumption.observeAsState("")
+    val distance by viewModel.distance.observeAsState(0)
+    val consumption by viewModel.consumption.observeAsState(0.0)
 
     val uf by viewModel.uf.observeAsState(selectedUf)
     val price by viewModel.price.observeAsState(null)
-    val tollAmount by viewModel.tollAmount.observeAsState("")
+    val tollAmount by viewModel.tollAmount.observeAsState(0.0)
     val peopleCount by viewModel.peopleCount.observeAsState(1)
+
+    val totalCostDistance by viewModel.totalCostDistance.observeAsState(0.0)
+    val totalCostConsumption by viewModel.totalCostConsumption.observeAsState(0.0)
+    val totalCostLiters by viewModel.totalCostLiters.observeAsState(0.0)
+    val totalCostForPeople by viewModel.totalCostForPeople.observeAsState(0.0)
 
     var roundTrip by rememberSaveable { mutableStateOf(false) }
 
@@ -86,10 +91,12 @@ fun HomeScreen(
         )
 
         TripCostSummaryCard(
-            totalCost = "",
-            fuelCost = "",
-            fuelLiters = "",
-            costPerPerson = ""
+            totalCostDistance = totalCostDistance,
+            totalCostConsumption = totalCostConsumption,
+            totalCostLiters = totalCostLiters,
+            totalCostForPeople = totalCostForPeople,
+            distance = distance,
+            roundTrip = roundTrip
         )
     }
 }
