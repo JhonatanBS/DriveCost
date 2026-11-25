@@ -21,6 +21,13 @@ import com.example.drivecost.ui.screens.splashscreen.SplashScreen
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 
+private object AppRoutes {
+    const val SPLASH = "splashscreen"
+    const val HOME = "home"
+    const val HOME_WITH_UF = "home?uf={uf}"
+    const val CHANGE_STATE = "changeState"
+}
+
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -31,15 +38,26 @@ fun AppNavigation() {
         )
     }
 
-    NavHost(navController = navController, startDestination = "splashscreen") {
-        composable("splashscreen") {
+    val homeViewModelFactory = remember(fuelRepository) {
+        HomeViewModelFactory(fuelRepository)
+    }
+
+    val changeStateViewModelFactory = remember(fuelRepository) {
+        ChangeStateViewModelFactory(fuelRepository)
+    }
+
+    NavHost(
+        navController = navController,
+        startDestination = AppRoutes.SPLASH
+    ) {
+        composable(route = AppRoutes.SPLASH) {
             SplashScreen()
 
             LaunchedEffect(Unit) {
                 delay(1500.milliseconds)
 
-                navController.navigate("home") {
-                    popUpTo("splashscreen") {
+                navController.navigate(AppRoutes.HOME) {
+                    popUpTo(AppRoutes.SPLASH) {
                         inclusive = true
                     }
                 }
@@ -47,7 +65,7 @@ fun AppNavigation() {
         }
 
         composable(
-            route = "home?uf={uf}",
+            route = AppRoutes.HOME_WITH_UF,
             arguments = listOf(
                 navArgument("uf") {
                     type = NavType.StringType
@@ -59,43 +77,36 @@ fun AppNavigation() {
 
             val uf = backStackEntry.arguments?.getString("uf")
 
-            val factory = remember {
-                HomeViewModelFactory(fuelRepository)
-            }
-
-            val viewModel: HomeViewModel = viewModel(
-                factory = factory
+            val homeViewModel: HomeViewModel = viewModel(
+                factory = homeViewModelFactory
             )
 
             HomeScreen(
-                viewModel = viewModel,
+                viewModel = homeViewModel,
+                selectedUf = uf,
                 onNavigateToChangeState = {
-                    navController.navigate("changeState")
-                },
-                selectedUf = uf
+                    navController.navigate(AppRoutes.CHANGE_STATE)
+                }
             )
-
         }
 
-        composable("changeState") {
-            val factory = remember {
-                ChangeStateViewModelFactory(fuelRepository)
-            }
+        composable(AppRoutes.CHANGE_STATE) {
 
-            val viewModel: ChangeStateViewModel = viewModel(
-                factory = factory
+            val changeStateViewModel: ChangeStateViewModel = viewModel(
+                factory = changeStateViewModelFactory
             )
+
             ChangeStateScreen(
-                viewModel = viewModel,
+                viewModel = changeStateViewModel,
                 onGoBackClick = {
                     navController.popBackStack()
                 },
                 onSelectedPrice = {
-                    val selectedState = viewModel.selectedState.value
+                    val selectedState = changeStateViewModel.selectedState.value
 
                     selectedState?.let {
-                        navController.navigate("home?uf=${it.uf}") {
-                            popUpTo("home?uf={uf}") {
+                        navController.navigate("${AppRoutes.HOME}?uf=${it.uf}") {
+                            popUpTo(route = AppRoutes.HOME_WITH_UF) {
                                 inclusive = true
                             }
                         }
