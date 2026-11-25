@@ -1,5 +1,6 @@
 package com.example.drivecost.ui.screens.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,79 +40,102 @@ class HomeViewModel(private val fuelRepository: FuelRepository) : ViewModel() {
     private val _totalCostForPeople = MutableLiveData(0.00)
     val totalCostForPeople: LiveData<Double> = _totalCostForPeople
 
+    private val _roundTrip = MutableLiveData(false)
+    val roundTrip: LiveData<Boolean> = _roundTrip
+
+    fun updateRoundTrip(value: Boolean) {
+        _roundTrip.value = value
+        recalculateFuelCost()
+    }
+
     fun updateDistance(value: Int) {
         _distance.value = value
-        calculateFuelLiters()
-        calculateFuelCost()
-        calculateCostTotal()
-        calculateCounterPeople()
+        recalculateFuelCost()
     }
 
     fun updateConsumption(value: Double) {
         _consumption.value = value
-        calculateFuelLiters()
-        calculateFuelCost()
-        calculateCostTotal()
-        calculateCounterPeople()
+        recalculateFuelCost()
     }
 
     fun updateTollAmount(value: Double) {
         _tollAmount.value = value
-        calculateFuelLiters()
-        calculateFuelCost()
-        calculateCostTotal()
-        calculateCounterPeople()
+        recalculateFuelCost()
     }
 
-    fun loadingGasolinePrice(uf: String = "br") {
+    fun loadGasolinePrice(uf: String = "br") {
         viewModelScope.launch {
-            val price = fuelRepository.getGasolinePrice(uf)
-            _price.value = price
-            _uf.value = uf.uppercase()
+            try {
+                val price = fuelRepository.getGasolinePrice(uf)
+
+                _price.value = price
+                _uf.value = uf.uppercase()
+
+                calculateFuelCost()
+            } catch (exception: Exception) {
+                Log.e(
+                    "DRIVECOST",
+                    "Error fetching gasoline price",
+                    exception
+                )
+            }
         }
     }
 
     fun incrementPeopleCount() {
-        _peopleCount.value = _peopleCount.value?.plus(1)
-        calculateCounterPeople()
+        _peopleCount.value = (_peopleCount.value ?: 1) + 1
+        calculateCostForPeople()
     }
 
     fun decrementPeopleCount() {
-        _peopleCount.value = _peopleCount.value?.let {
-            (it - 1).coerceAtLeast(1)
-        }
-        calculateCounterPeople()
+        _peopleCount.value = (_peopleCount.value ?: 1)
+            .minus(1)
+            .coerceAtLeast(1)
+
+        calculateCostForPeople()
     }
 
-    fun calculateFuelLiters() {
+    private fun recalculateFuelCost() {
+        calculateFuelLiters()
+        calculateFuelCost()
+    }
+
+    private fun calculateFuelLiters() {
         val distanceValue = distance.value ?: 0
         val consumptionValue = consumption.value ?: 0.0
+        val multiplier = if (roundTrip.value == true) 2 else 1
 
-        if (consumptionValue > 0.0 && distanceValue > 0) {
-            _totalCostLiters.value = distanceValue / consumptionValue
-        } else {
-            _totalCostLiters.value = 0.0
-        }
+        _totalCostLiters.value =
+            if (distanceValue > 0 && consumptionValue > 0.0) {
+                (distanceValue * multiplier) / consumptionValue
+            } else {
+                0.0
+            }
     }
 
-    fun calculateFuelCost() {
+    private fun calculateFuelCost() {
         val litersValue = totalCostLiters.value ?: 0.0
         val priceValue = price.value ?: 0.0
 
         _totalCostConsumption.value = litersValue * priceValue
+
+        calculateCostTotal()
     }
 
-    fun calculateCostTotal() {
+    private fun calculateCostTotal() {
         val tollAmountValue = tollAmount.value ?: 0.0
         val totalCostConsumption = totalCostConsumption.value ?: 0.0
+        val multiplier = if (roundTrip.value == true) 2 else 1
 
-        _totalCostDistance.value = tollAmountValue + totalCostConsumption
+        _totalCostDistance.value = (tollAmountValue * multiplier) + totalCostConsumption
+
+        calculateCostForPeople()
     }
 
-    fun calculateCounterPeople() {
-        val totalCostDistanceValue = totalCostDistance.value ?: 0.0
-        val peopleCountValue = peopleCount.value ?: 0
+    private fun calculateCostForPeople() {
+        val totalCost = totalCostDistance.value ?: 0.0
+        val people = (peopleCount.value ?: 1).coerceAtLeast(1)
 
-        _totalCostForPeople.value = totalCostDistanceValue / peopleCountValue
+        _totalCostForPeople.value = totalCost / people
     }
 }

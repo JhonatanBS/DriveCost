@@ -34,7 +34,7 @@ fun SplashScreen() {
     }
 
     LaunchedEffect(Unit) {
-        delay(500.milliseconds)
+        delay(300.milliseconds)
         visible = true
     }
 

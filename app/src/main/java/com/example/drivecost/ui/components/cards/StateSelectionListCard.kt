@@ -15,7 +15,7 @@ import com.example.drivecost.ui.components.common.StateItem
 
 @Composable
 fun StateSelectionListCard(
-    filteredStates: List<StateFuelInformation>,
+    states: List<StateFuelInformation>,
     selectedState: StateFuelInformation?,
     onStateClick: (StateFuelInformation) -> Unit,
     modifier: Modifier = Modifier
@@ -30,7 +30,7 @@ fun StateSelectionListCard(
                 .heightIn(max = 330.dp),
         ) {
             items(
-                items = filteredStates,
+                items = states,
                 key = { it.uf }
             ) { state ->
 

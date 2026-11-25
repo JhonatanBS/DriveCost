@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PriceButton(
     onClick: () -> Unit,
+    enabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     Button(
@@ -26,7 +27,8 @@ fun PriceButton(
             containerColor = MaterialTheme.colorScheme.primary
         ),
         shape = RoundedCornerShape(12.dp),
-        contentPadding = PaddingValues(20.dp)
+        contentPadding = PaddingValues(20.dp),
+        enabled = enabled
     ) {
         Text(
             text = "Usar este preço",

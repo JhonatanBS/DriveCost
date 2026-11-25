@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.drivecost.model.StateFuelInformation
 import com.example.drivecost.repository.FuelRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 class ChangeStateViewModel(
@@ -20,9 +21,9 @@ class ChangeStateViewModel(
         MutableLiveData<List<StateFuelInformation>>(emptyList())
     val filteredStates: LiveData<List<StateFuelInformation>> = _filteredStates
 
-    private val _fuelInformation =
+    private val _stateFuelInformation =
         MutableLiveData<List<StateFuelInformation>>(emptyList())
-    val fuelInformation: LiveData<List<StateFuelInformation>> = _fuelInformation
+    val stateFuelInformation: LiveData<List<StateFuelInformation>> = _stateFuelInformation
 
     private val _selectedState = MutableLiveData<StateFuelInformation?>(null)
     val selectedState: LiveData<StateFuelInformation?> = _selectedState
@@ -40,15 +41,13 @@ class ChangeStateViewModel(
             try {
                 val states = fuelRepository.getStatesWithFuelInfo()
 
-                _fuelInformation.value = states
+                _stateFuelInformation.value = states
                 filterStates(_state.value.orEmpty())
 
+            } catch (exception: CancellationException) {
+                throw exception
             } catch (exception: Exception) {
-                Log.e(
-                    "DRIVECOST",
-                    "Error fetching state fuel information",
-                    exception
-                )
+                Log.e(TAG, "Error fetching state fuel information", exception)
             }
         }
     }
@@ -59,7 +58,7 @@ class ChangeStateViewModel(
     }
 
     private fun filterStates(value: String) {
-        _filteredStates.value = _fuelInformation.value.orEmpty().filter { currentState ->
+        _filteredStates.value = _stateFuelInformation.value.orEmpty().filter { currentState ->
             currentState.state.contains(value, ignoreCase = true) ||
                     currentState.uf.contains(value, ignoreCase = true)
         }
@@ -75,13 +74,15 @@ class ChangeStateViewModel(
                 val price = fuelRepository.getNationalGasolinePrice()
                 _averageNationalPrice.value = price
 
+            } catch (exception: CancellationException) {
+                throw exception
             } catch (exception: Exception) {
-                Log.e(
-                    "DRIVECOST",
-                    "Error fetching gasoline price",
-                    exception
-                )
+                Log.e(TAG, "Error fetching national gasoline price", exception)
             }
         }
+    }
+
+    private companion object {
+        const val TAG = "ChangeStateViewModel"
     }
 }

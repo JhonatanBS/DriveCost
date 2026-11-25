@@ -26,14 +26,6 @@ fun TripCostSummaryCard(
     roundTrip: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val multiplier = if (roundTrip) 2 else 1
-
-    val tripDistance = distance * multiplier
-    val tripCost = totalCostDistance * multiplier
-    val fuelCost = totalCostConsumption * multiplier
-    val fuelLiters = totalCostLiters * multiplier
-    val costPerPerson = totalCostForPeople * multiplier
-
     TravelSummaryCard(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primary
@@ -45,13 +37,13 @@ fun TripCostSummaryCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Custo total • $tripDistance km",
+                text = "Custo total • ${if(roundTrip) distance * 2 else distance} km",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
             Text(
-                text = formatCurrency(tripCost),
+                text = formatCurrency(totalCostDistance),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onPrimary
             )
@@ -71,17 +63,17 @@ fun TripCostSummaryCard(
         ) {
             SummaryMetric(
                 label = "Combustível",
-                value = formatCurrency(fuelCost)
+                value = formatCurrency(totalCostConsumption)
             )
 
             SummaryMetric(
                 label = "Litros",
-                value = "${formatNumber(fuelLiters)} L"
+                value = "${formatNumber(totalCostLiters)} L"
             )
 
             SummaryMetric(
                 label = "Por pessoa",
-                value = formatCurrency(costPerPerson)
+                value = formatCurrency(totalCostForPeople)
             )
         }
     }

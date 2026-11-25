@@ -42,9 +42,9 @@ fun ChangeStateScreen(
 ) {
 
     val state by viewModel.state.observeAsState("")
-    val averageNationalPrice by viewModel.averageNationalPrice.observeAsState(null)
     val filteredStates by viewModel.filteredStates.observeAsState(emptyList())
     val selectedState by viewModel.selectedState.observeAsState(null)
+    val averageNationalPrice by viewModel.averageNationalPrice.observeAsState(null)
 
     ScreenContainer {
 
@@ -63,13 +63,16 @@ fun ChangeStateScreen(
         )
 
         StateSelectionListCard(
-            filteredStates,
+            states = filteredStates,
             selectedState = selectedState,
             onStateClick = viewModel::selectState
         )
 
         NationAveragePriceCard(value = averageNationalPrice)
 
-        PriceButton(onClick = onSelectedPrice)
+        PriceButton(
+            onClick = onSelectedPrice,
+            enabled = selectedState != null
+        )
     }
 }

@@ -6,10 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import com.example.drivecost.ui.components.cards.DistanceConsumptionCard
 import com.example.drivecost.ui.components.cards.FuelPriceCard
 import com.example.drivecost.ui.components.layout.ScreenContainer
@@ -43,7 +40,6 @@ fun HomeScreen(
 
     val distance by viewModel.distance.observeAsState(0)
     val consumption by viewModel.consumption.observeAsState(0.0)
-
     val uf by viewModel.uf.observeAsState(selectedUf)
     val price by viewModel.price.observeAsState(null)
     val tollAmount by viewModel.tollAmount.observeAsState(0.0)
@@ -53,11 +49,10 @@ fun HomeScreen(
     val totalCostConsumption by viewModel.totalCostConsumption.observeAsState(0.0)
     val totalCostLiters by viewModel.totalCostLiters.observeAsState(0.0)
     val totalCostForPeople by viewModel.totalCostForPeople.observeAsState(0.0)
-
-    var roundTrip by rememberSaveable { mutableStateOf(false) }
+    val roundTrip by viewModel.roundTrip.observeAsState(false)
 
     LaunchedEffect(selectedUf) {
-        viewModel.loadingGasolinePrice(selectedUf ?: "br")
+        viewModel.loadGasolinePrice(selectedUf ?: "br")
     }
 
     ScreenContainer {
@@ -73,7 +68,7 @@ fun HomeScreen(
             consumption = consumption,
             onConsumptionChange = viewModel::updateConsumption,
             roundTrip = roundTrip,
-            onRoundTripChange = { roundTrip = it }
+            onRoundTripChange = viewModel::updateRoundTrip
         )
 
         FuelPriceCard(
