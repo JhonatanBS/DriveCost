@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +23,6 @@ import coil.compose.AsyncImage
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import java.util.Locale
-
 
 @Composable
 fun StateItem(
@@ -36,11 +36,19 @@ fun StateItem(
 ) {
     val context = LocalContext.current
 
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            add(SvgDecoder.Factory())
-        }
-        .build()
+    val imageLoader = remember(context) {
+        ImageLoader.Builder(context)
+            .components {
+                add(SvgDecoder.Factory())
+            }
+            .build()
+    }
+
+    val contentColor = if (isSelected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.secondary
+    }
 
     Button(
         onClick = onClick,
@@ -73,31 +81,26 @@ fun StateItem(
             Text(
                 text = uf,
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isSelected)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.secondary
+                color = contentColor
             )
 
             Text(
                 text = state,
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isSelected)
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.secondary
+                color = contentColor
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
             gasoline?.let { price ->
                 Text(
-                    text = "R$ ${String.format(Locale("pt", "BR"), "%.2f", price)}",
+                    text = String.format(
+                        Locale.forLanguageTag("pt-BR"),
+                        "R$ %.2f",
+                        price
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = if (isSelected)
-                        MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.secondary
+                    color = contentColor
                 )
             }
         }

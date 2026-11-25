@@ -19,6 +19,7 @@ import com.example.drivecost.ui.components.common.DescriptionText
 import com.example.drivecost.ui.components.common.StateBadge
 import com.example.drivecost.ui.components.common.TravelInputField
 import com.example.drivecost.ui.components.layout.TravelSummaryCard
+import java.util.Locale
 
 @Composable
 fun FuelPriceCard(
@@ -26,6 +27,12 @@ fun FuelPriceCard(
     selectedUf: String?,
     onNavigateToChangeState: () -> Unit
 ) {
+    val formattedPrice = price?.let {
+        String.format(Locale.forLanguageTag("pt-BR"), "%.2f", it)
+    }.orEmpty()
+
+    val state = selectedUf.orEmpty()
+
     TravelSummaryCard {
 
         Row(
@@ -40,7 +47,6 @@ fun FuelPriceCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-
                 Icon(
                     modifier = Modifier
                         .size(14.dp),
@@ -51,12 +57,12 @@ fun FuelPriceCard(
                 DescriptionText(text = "Preço do litro da gasolina")
             }
 
-            StateBadge(selectedUf)
+            StateBadge(badge = selectedUf)
         }
 
         TravelInputField(
             enabled = false,
-            value = "R$ $price",
+            value = if (formattedPrice.isNotEmpty()) "R$ $formattedPrice" else "",
             onValueChange = {},
             placeholder = "R$"
         )
@@ -65,10 +71,17 @@ fun FuelPriceCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
 
-            DescriptionText(text = "Média da ANP no $selectedUf")
+            DescriptionText(
+                text = if (state.isNotBlank()) {
+                    "Média da ANP em $state"
+                } else {
+                    "Média da ANP"
+                }
+            )
 
             Text(
                 text = "Alterar estado",
@@ -76,7 +89,6 @@ fun FuelPriceCard(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
-
         }
     }
 }

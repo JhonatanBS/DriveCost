@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ScreenContainer(
     modifier: Modifier = Modifier,
+    horizontalPadding: Dp = 20.dp,
+    verticalPadding: Dp = 20.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
@@ -23,7 +26,10 @@ fun ScreenContainer(
             .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(20.dp),
+            .padding(
+                horizontal = horizontalPadding,
+                vertical = verticalPadding
+            ),
         content = content
     )
 }

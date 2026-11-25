@@ -26,6 +26,16 @@ fun CounterButton(
     modifier: Modifier = Modifier
 ) {
 
+    val iconRes = when (action) {
+        CounterAction.INCREMENT -> R.drawable.ic_plus
+        CounterAction.DECREMENT -> R.drawable.ic_minus
+    }
+
+    val contentDescription = when (action) {
+        CounterAction.INCREMENT -> "Add person"
+        CounterAction.DECREMENT -> "Remove person"
+    }
+
     Button(
         onClick = onClick,
         modifier = modifier.size(55.dp),
@@ -34,25 +44,14 @@ fun CounterButton(
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.background),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.onSecondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary,
+            contentColor = MaterialTheme.colorScheme.secondary,
         )
     ) {
-
         Icon(
             modifier = Modifier.size(18.dp),
-            painter =
-                painterResource(
-                    when (action) {
-                        CounterAction.INCREMENT -> R.drawable.ic_plus
-                        CounterAction.DECREMENT -> R.drawable.ic_minus
-                    }
-                ),
-            contentDescription = when (action) {
-                CounterAction.INCREMENT -> "Add person"
-                CounterAction.DECREMENT -> "Remove person"
-            },
+            painter = painterResource(iconRes),
+            contentDescription = contentDescription,
             tint = MaterialTheme.colorScheme.secondary,
         )
-
     }
 }

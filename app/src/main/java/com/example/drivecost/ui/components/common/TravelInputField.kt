@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.drivecost.ui.theme.Green50
 
 @Composable
 fun TravelInputField(
@@ -23,7 +22,6 @@ fun TravelInputField(
     enabled: Boolean = true,
     readOnly: Boolean = false
 ) {
-
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -31,12 +29,14 @@ fun TravelInputField(
             .fillMaxWidth(),
         enabled = enabled,
         readOnly = readOnly,
+        singleLine = true,
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
             unfocusedContainerColor = MaterialTheme.colorScheme.onSecondary,
-            focusedBorderColor = Green50,
+            focusedBorderColor = MaterialTheme.colorScheme.primaryContainer,
             unfocusedBorderColor = MaterialTheme.colorScheme.background,
-
+            disabledContainerColor = MaterialTheme.colorScheme.onSecondary,
+            disabledBorderColor = MaterialTheme.colorScheme.outline
             ),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         placeholder = {
@@ -48,7 +48,6 @@ fun TravelInputField(
 
         },
         textStyle = MaterialTheme.typography.bodyMedium,
-        singleLine = true,
         shape = RoundedCornerShape(10.dp),
     )
 }

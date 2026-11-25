@@ -23,7 +23,9 @@ private val LightColorScheme = lightColorScheme(
     outline = Gray700,
 
     error = Alert,
-    onError = White
+    onError = White,
+
+    primaryContainer = Green50,
 )
 
 @Composable

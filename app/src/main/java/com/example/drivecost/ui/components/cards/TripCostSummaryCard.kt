@@ -1,3 +1,4 @@
+
 package com.example.drivecost.ui.components.cards
 
 import androidx.compose.foundation.layout.Arrangement
@@ -25,29 +26,32 @@ fun TripCostSummaryCard(
     roundTrip: Boolean,
     modifier: Modifier = Modifier
 ) {
-    TravelSummaryCard(containerColor = MaterialTheme.colorScheme.primary) {
+    val multiplier = if (roundTrip) 2 else 1
 
+    val tripDistance = distance * multiplier
+    val tripCost = totalCostDistance * multiplier
+    val fuelCost = totalCostConsumption * multiplier
+    val fuelLiters = totalCostLiters * multiplier
+    val costPerPerson = totalCostForPeople * multiplier
+
+    TravelSummaryCard(
+        modifier = modifier,
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Text(
-                text = "Custo total · ${if (roundTrip) distance * 2 else distance} Km",
+                text = "Custo total • $tripDistance km",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onPrimary
             )
 
             Text(
-                text = "R$ ${
-                    String.format(
-                        Locale.forLanguageTag("pt-BR"), "%.2f",
-                        if (roundTrip) totalCostDistance * 2 else totalCostDistance
-                    )
-                }",
+                text = formatCurrency(tripCost),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onPrimary
             )
@@ -63,66 +67,58 @@ fun TripCostSummaryCard(
                 .fillMaxWidth()
                 .padding(top = 10.dp),
             horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.Top
         ) {
+            SummaryMetric(
+                label = "Combustível",
+                value = formatCurrency(fuelCost)
+            )
 
-            Column {
-                Text(
-                    text = "Combustível",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
+            SummaryMetric(
+                label = "Litros",
+                value = "${formatNumber(fuelLiters)} L"
+            )
 
-                Text(
-                    text = "R$ ${
-                        String.format(
-                            Locale.forLanguageTag("pt-BR"), "%.2f",
-                            if (roundTrip) totalCostConsumption * 2 else totalCostConsumption
-                        )
-                    }",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-
-            Column {
-                Text(
-                    text = "Litros",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-
-                Text(
-                    text = "${
-                        String.format(
-                            Locale.forLanguageTag("pt-BR"), "%.2f",
-                            if (roundTrip) totalCostLiters * 2 else totalCostLiters
-                        )
-                    } L",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-
-            Column {
-
-                Text(
-                    text = "Por pessoa",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-
-                Text(
-                    text = "R$ ${
-                        String.format(
-                            Locale.forLanguageTag("pt-BR"), "%.2f",
-                            if (roundTrip) totalCostForPeople * 2 else totalCostForPeople
-                        )
-                    }",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            }
+            SummaryMetric(
+                label = "Por pessoa",
+                value = formatCurrency(costPerPerson)
+            )
         }
     }
+}
+
+@Composable
+private fun SummaryMetric(
+    label: String,
+    value: String
+) {
+    Column {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    }
+}
+
+private fun formatCurrency(value: Double): String {
+    return String.format(
+        Locale.forLanguageTag("pt-BR"),
+        "R$ %.2f",
+        value
+    )
+}
+
+private fun formatNumber(value: Double): String {
+    return String.format(
+        Locale.forLanguageTag("pt-BR"),
+        "%.2f",
+        value
+    )
 }

@@ -1,7 +1,7 @@
+
 package com.example.drivecost.ui.components.cards
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -24,31 +24,36 @@ fun TravelExpensesCard(
     onTollAmountChange: (Double) -> Unit,
     peopleCount: Int,
     incrementPeopleCount: () -> Unit,
-    decrementPeopleCount: () -> Unit,
+    decrementPeopleCount: () -> Unit
 ) {
+    val formattedTollAmount = if (tollAmount == 0.0) {
+        ""
+    } else {
+        String.format(
+            Locale.forLanguageTag("pt-BR"),
+            "%.2f",
+            tollAmount
+        )
+    }
 
     TravelSummaryCard {
-
         Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
-                Box(
-                    modifier = Modifier.padding(bottom = 10.dp)
-                ) {
-                    DescriptionText(text = "Pedágios (R$)")
-                }
+                DescriptionText(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    text = "Pedágios (R$)"
+                )
 
                 TravelInputField(
-                    value = if (tollAmount == 0.0) "" else String.format(
-                        Locale.forLanguageTag("pt-BR"), "%.2f", tollAmount
-                    ),
+                    value = formattedTollAmount,
                     onValueChange = { newValue ->
-                        onTollAmountChange(newValue.replace(",", ".").toDoubleOrNull() ?: 0.0)
+                        onTollAmountChange(
+                            newValue.replace(",", ".").toDoubleOrNull() ?: 0.0
+                        )
                     },
                     placeholder = "R$"
                 )
@@ -57,25 +62,22 @@ fun TravelExpensesCard(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
-                Box(
-                    modifier = Modifier.padding(bottom = 10.dp)
-                ) {
-                    DescriptionText(text = "Pessoas")
-                }
+                DescriptionText(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    text = "Pessoas"
+                )
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     CounterButton(
                         action = CounterAction.DECREMENT,
                         onClick = decrementPeopleCount
                     )
 
                     Text(
-                        text = "$peopleCount",
+                        text = peopleCount.toString(),
                         style = MaterialTheme.typography.bodyLarge
                     )
 
@@ -83,7 +85,6 @@ fun TravelExpensesCard(
                         action = CounterAction.INCREMENT,
                         onClick = incrementPeopleCount
                     )
-
                 }
             }
         }

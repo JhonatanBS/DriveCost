@@ -1,7 +1,6 @@
 package com.example.drivecost.ui.components.cards
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,9 +17,14 @@ import com.example.drivecost.R
 import com.example.drivecost.ui.components.common.DescriptionText
 import com.example.drivecost.ui.components.common.StateBadge
 import com.example.drivecost.ui.components.layout.TravelSummaryCard
+import java.util.Locale
 
 @Composable
 fun NationAveragePriceCard(value: Double?) {
+    val formattedPrice = value?.let {
+        String.format(Locale.forLanguageTag("pt-BR"), "%.2f", it)
+    } ?: "Indisponível"
+
     TravelSummaryCard {
         Row(
             modifier = Modifier
@@ -39,7 +43,7 @@ fun NationAveragePriceCard(value: Double?) {
                     modifier = Modifier
                         .size(14.dp),
                     painter = painterResource(id = R.drawable.ic_gas),
-                    contentDescription = "icon of gas",
+                    contentDescription = null,
                 )
 
                 DescriptionText(text = "Média da gasolina comum")
@@ -47,14 +51,10 @@ fun NationAveragePriceCard(value: Double?) {
 
             StateBadge("BR")
         }
-
-        Column {
-
-            Text(
-                text = "R$ $value",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+        Text(
+            text = if (value != null) "R$ $formattedPrice" else formattedPrice,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

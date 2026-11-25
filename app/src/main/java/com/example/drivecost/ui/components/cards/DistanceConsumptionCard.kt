@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.drivecost.ui.components.common.DescriptionText
 import com.example.drivecost.ui.components.common.TravelInputField
@@ -26,7 +27,6 @@ fun DistanceConsumptionCard(
     roundTrip: Boolean,
     onRoundTripChange: (Boolean) -> Unit
 ) {
-
     TravelSummaryCard {
         Row(
             modifier = Modifier
@@ -34,21 +34,18 @@ fun DistanceConsumptionCard(
                 .padding(bottom = 20.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
             Column(
                 Modifier
                     .weight(1f),
                 horizontalAlignment = Alignment.Start
             ) {
-
                 DescriptionText(
                     modifier = Modifier.padding(bottom = 10.dp),
                     text = "Distância (km)"
 
                 )
-
                 TravelInputField(
-                    value = if (distance == 0) "" else distance.toString(),
+                    value = distance.takeIf { it != 0 }?.toString().orEmpty(),
                     onValueChange = { newValue ->
                         onDistanceChange(newValue.toIntOrNull() ?: 0)
                     },
@@ -60,35 +57,36 @@ fun DistanceConsumptionCard(
                 Modifier
                     .weight(1f),
                 horizontalAlignment = Alignment.Start
-
             ) {
-
                 DescriptionText(
                     modifier = Modifier.padding(bottom = 10.dp),
                     text = "Consumo (km/l)"
                 )
-
                 TravelInputField(
-                    value = if (consumption == 0.0) "" else consumption.toString(),
+                    value = consumption.takeIf { it != 0.0 }?.toString().orEmpty(),
                     onValueChange = { newValue ->
                         onConsumptionChange(
                             newValue.replace(",", ".").toDoubleOrNull() ?: 0.0
                         )
                     },
                     placeholder = "km/l",
+                    keyboardType = KeyboardType.Decimal
                 )
             }
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
             Column(
-                modifier = Modifier
-                    .weight(1f)
+                modifier = Modifier.weight(1f)
             ) {
-                DescriptionText(text = "Ida e volta", isBold = true)
+                DescriptionText(
+                    text = "Ida e volta",
+                    style = MaterialTheme.typography.labelLarge
+                )
+
                 DescriptionText(text = "Dobra a distância")
             }
 

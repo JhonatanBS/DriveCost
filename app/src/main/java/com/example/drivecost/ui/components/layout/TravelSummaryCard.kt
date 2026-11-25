@@ -10,25 +10,27 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TravelSummaryCard(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surface,
+    contentPadding: Dp = 20.dp,
+    topSpacing: Dp = 20.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 20.dp),
+            .padding(top = topSpacing),
         shape = RoundedCornerShape(12.dp),
         color = containerColor
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
-            content()
-        }
+            modifier = Modifier.padding(contentPadding),
+            content = content
+        )
     }
 }

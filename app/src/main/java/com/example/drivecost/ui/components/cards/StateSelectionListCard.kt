@@ -1,6 +1,5 @@
 package com.example.drivecost.ui.components.cards
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -18,17 +17,17 @@ import com.example.drivecost.ui.components.common.StateItem
 fun StateSelectionListCard(
     filteredStates: List<StateFuelInformation>,
     selectedState: StateFuelInformation?,
-    onStateClick: (StateFuelInformation) -> Unit
+    onStateClick: (StateFuelInformation) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Surface(
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.padding(top = 20.dp),
     ) {
         LazyColumn(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .heightIn(max = 330.dp),
-            verticalArrangement = Arrangement.spacedBy(0.dp),
         ) {
             items(
                 items = filteredStates,
