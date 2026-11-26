@@ -9,11 +9,11 @@
 <hr>
 <h1>Home</h1>
 <hr>
-<img src="./assets/home.png" width="300px"/>
+<img src="assets/home.png" width="300px"/>
 <hr>
   <h1>Change State</h1>
 <hr>
-<img src="./assets/changeState.png" width="300px"/>
+<img src="assets/changestate.png" width="300px"/>
 <hr>
 <hr>
   <h1>Filter State</h1>
